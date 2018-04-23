@@ -2,7 +2,7 @@ Byte Drawer
 
 Flipping Bits on a real char and visualize that.
 
-![Image of Yaktocat](./screenshot)
+![Screenshot](./screenshot)
 
 This is WORK IN PROGRESS.
 

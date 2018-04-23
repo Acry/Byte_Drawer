@@ -2,9 +2,12 @@ Byte Drawer
 
 Flipping Bits on a real char and visualize that.
 
-This is WORK IN PROGRESS, currently in review state.
+![Image of Yaktocat](./screenshot)
+
+This is WORK IN PROGRESS.
 
 The code is nearly at a fork state.
+But currently only works for little Endian.  
 
 * fork 1 is an educational program to learn about Bit-order aka endianess.
 

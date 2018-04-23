@@ -77,6 +77,9 @@ SDL_Rect 	 le_dst;
 SDL_Texture 	*be_tex     = NULL;
 SDL_Rect 	 be_dst;
 
+SDL_Texture 	*numb_sys_t = NULL;
+SDL_Rect 	 numb_sys_r;
+
 //DEBUG HELP
 char dump=0;
 //END   GLOBALS
@@ -107,6 +110,7 @@ font=TTF_OpenFont("./assets/FiraMono-Medium.ttf", 43);
 font_dst.x=50;
 font_dst.y=150;
 
+
 int w,h;
 int i;
 help_surf = IMG_Load( "./assets/l_e.png" );
@@ -133,6 +137,7 @@ if (SDL_BYTEORDER==SDL_BIG_ENDIAN)
 else
 	be_dst.y=250;
 
+
 SDL_FreeSurface( help_surf );
 
 for (i=0; i<8; i++){
@@ -142,13 +147,22 @@ for (i=0; i<8; i++){
 	block[i].y=100;
 }
 
-
-//END LOAD STUFF AND CREATE TEXTURES
 for (i=0; i<8; i++){
 	fill[i]=SDL_FALSE;
 }
 line=0;
 render_text();
+font_surf=TTF_RenderText_Blended(font,"2", font_color);
+numb_sys_t = SDL_CreateTextureFromSurface( Renderer, font_surf );
+
+SDL_QueryTexture(numb_sys_t, NULL, NULL, &w, &h);
+numb_sys_r.w=w/2;
+numb_sys_r.h=h/2;
+SDL_QueryTexture(font_Tex, NULL, NULL, &w, &h);
+numb_sys_r.x=w+font_dst.x;
+numb_sys_r.y=h+font_dst.y-(numb_sys_r.h/2);
+
+//END LOAD STUFF AND CREATE TEXTURES
 
 SDL_SetWindowPosition(Window,0,0);
 SDL_SetWindowSize(Window,540,540);
@@ -218,6 +232,7 @@ for (i=7; 0 <= i; i--){
 }
 	SDL_RenderCopy(Renderer, le_tex, NULL, &le_dst);
 	SDL_RenderCopy(Renderer, be_tex, NULL, &be_dst);
+	SDL_RenderCopy(Renderer, numb_sys_t, NULL, &numb_sys_r);
 
 SDL_RenderCopy(Renderer, font_Tex, NULL, &font_dst);
 
@@ -229,6 +244,7 @@ SDL_RenderPresent(Renderer);
 
 SDL_FreeSurface(font_surf);
 SDL_DestroyTexture(font_Tex);
+SDL_DestroyTexture(numb_sys_t);
 SDL_DestroyTexture(le_tex);
 SDL_DestroyTexture(be_tex);
 TTF_CloseFont(font);

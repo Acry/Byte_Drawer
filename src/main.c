@@ -304,8 +304,7 @@ void render_text(void)
 
 void dump_value(void)
 {
-	SDL_Log("foo %c:", line);
-	SDL_Log("foo %d:", line);
+	
 	SDL_Log("line %c is %d in decimal\n",line,line);
 	int line2=line;
 	SDL_Log("Octal value is: %o\n",line2);

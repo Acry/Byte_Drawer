@@ -10,7 +10,7 @@ void init(void)
 SDL_Init(SDL_INIT_EVERYTHING);
 TTF_Init();
 
-Window = SDL_CreateWindow("", 0, 0, 0, 0, SDL_WINDOW_HIDDEN);
+Window = SDL_CreateWindow("", 0, 0, 0, 0, SDL_WINDOW_HIDDEN|SDL_WINDOW_RESIZABLE);
 
 //BEGIN ICON
 SDL_Surface *icon;
@@ -23,6 +23,7 @@ TTF_CloseFont(icon_font);
 //END 	ICON
 
 Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+SDL_SetHint (SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
 }
 

@@ -5,10 +5,13 @@
  * 
  * This is WORK IN PROGRESS
  * 
- * The code is nearly at a fork state.
+ * The code is at a fork state.
  * 
- * fork 1 is an educational program to learn about Bit-order aka endianess.
+ * fork 1 is an educational program to learn about Bit-order, Byte Order
+ * 	  aka endianess and Data Representation and C BinOps.
+ * 
  * fork 2 is a pixel drawer to make monochromatic assets for classic VCS.
+ * 
  * fork 3 could be a fully fledged Pixel/Icon Editor.
  * 
  */
@@ -18,7 +21,7 @@
  * For trunk:
  * DONE read and save byte
  * 
- * AFTER CODE REVIEW:
+ * TODO Check Big Endian usability
  * TODO Window resizable
  * TODO Scale Window content
  * 
@@ -28,6 +31,7 @@
  * TODO Show dec/oct/hex-Values
  * TODO substitute endian png's with runtime pictures
  * TODO switch data signed/unsigned and type (int/float)
+ * TODO Text Input for Value
  * 
  * For B2 - pixel drawer:
  * TODO Add Line
@@ -60,9 +64,10 @@
 //BEGIN GLOBALS
 
 SDL_Point mouse;
-SDL_Rect  block[8];
+SDL_Rect  bit[8];
 SDL_bool  fill[8];
-char      line;
+
+unsigned char    line;
 
 TTF_Font  	*font;
 SDL_Color 	 font_color = {BLUE};
@@ -81,7 +86,7 @@ SDL_Texture 	*numb_sys_t = NULL;
 SDL_Rect 	 numb_sys_r;
 
 //DEBUG HELP
-char dump=0;
+char dump=1;
 //END   GLOBALS
 
 //BEGIN FUNCTION PROTOTYPES
@@ -141,10 +146,10 @@ else
 SDL_FreeSurface( help_surf );
 
 for (i=0; i<8; i++){
-	block[i].w=50;
-	block[i].h=50;
-	block[i].x=(i*50)+50;
-	block[i].y=100;
+	bit[i].w=50;
+	bit[i].h=50;
+	bit[i].x=50+(i*50);
+	bit[i].y=100;
 }
 
 for (i=0; i<8; i++){
@@ -215,18 +220,18 @@ while(running){
 SDL_SetRenderDrawColor(Renderer, WHITE);
 SDL_RenderClear(Renderer);
 
-for (i=7; 0 <= i; i--){
+for (i=0; i <8; i++){
 	if (fill[i]==SDL_FALSE){
 		SDL_SetRenderDrawColor(Renderer, BLACK);
-		SDL_RenderDrawRect(Renderer, &block[i]);
+		SDL_RenderDrawRect(Renderer, &bit[i]);
 	}
 	else{
 
 		SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
-		SDL_RenderFillRect(Renderer, &block[i]);
+		SDL_RenderFillRect(Renderer, &bit[i]);
 		
 		SDL_SetRenderDrawColor(Renderer, 255, 255, 255, 255);
-		SDL_RenderDrawRect(Renderer, &block[i]);
+		SDL_RenderDrawRect(Renderer, &bit[i]);
 	}
 }
 	SDL_RenderCopy(Renderer, le_tex, NULL, &le_dst);
@@ -258,9 +263,14 @@ return EXIT_SUCCESS;
 void check_col(void)
 {
 	for (int i=0; i<8; i++){
-		if (SDL_PointInRect(&mouse, &block[i])){
+		if (SDL_PointInRect(&mouse, &bit[i])){
+			
 			fill[i]=fill[i]^1; //XOR - flip var
-			line = line ^ (1 << i);
+			if (line & 1 << i)
+				line = line & ~(1 << i);
+			else
+				line = line | (1 << i);
+
 			render_text();
 		}
 	}
@@ -270,8 +280,10 @@ void check_line(void)
 {
 	int i;
 	for (i = 0; i<8; i++) {
-		if( (line >> i) & 1 )
-			fill[i]=fill[i]^1; //XOR - flip var
+		if (line & 1 << i)
+			fill[i]=1;
+		else
+			fill[i]=0;
 	}
 }
 
@@ -280,8 +292,7 @@ void render_text(void)
 	char buffer[16];
 	char temp[2];
 
-	int i;
-	for (i = 7; 0 <= i; i --) {
+	for (int i = 7; 0 <= i; i--) {
 		sprintf(temp, "%d", !!((line << i) & 0x80));
 		if (i==7){
 			strcpy(buffer,temp);
@@ -303,12 +314,31 @@ void render_text(void)
 
 void dump_value(void)
 {
+
+	char buffer[10];
+	char temp[2];
+	for (int i = 7; 0 <= i; i--) {
+		sprintf(temp, "%d", !!((line << i) & 0x80));
+		if (i==7){
+			strcpy(buffer,temp);
+		}
+		else if (i==4){
+			strcat(buffer,temp);
+			strcat(buffer," ");
+		}
+		else{
+			strcat(buffer,temp);
+		}
+	}
+	strcat(buffer,"\0");
+	SDL_Log("%s",buffer);
 	
 	SDL_Log("line %c is %d in decimal\n",line,line);
 	int line2=line;
 	SDL_Log("Octal value is: %o\n",line2);
 	SDL_Log("Hexadecimal value is (Alphabet in small letters): %x\n",line2);
 	SDL_Log("Hexadecimal value is (Alphabet in capital letters): %X\n",line2);
+	SDL_Log("\n");
 
 }
 
@@ -319,9 +349,10 @@ void read_file(void)
 	if (file==NULL){
 		SDL_Log("no file opened, try write one before. Press W to save your bit.");
 	}else{
-		line=(char)fgetc(file);
+		line=(unsigned char)fgetc(file);
 		fclose( file );
 	}
+	
 }
 
 void write_file	(void)
@@ -331,7 +362,8 @@ void write_file	(void)
 	if (file==NULL){
 		SDL_Log("Sorry couldn't write your Byte. Check write permissions.");
 	}else{
-		fputs(&line, file);
+// 		fputc(line, file);
+		fwrite( &line, sizeof line, 1, file );
 		fclose( file );
 		if (dump)
 			dump_value();

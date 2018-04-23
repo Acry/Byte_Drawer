@@ -179,8 +179,7 @@ while(running){
 		if(event.type == SDL_QUIT){
 			running = 0;
 		}
-		if(event.type == SDL_KEYDOWN )
-		{
+		if(event.type == SDL_KEYDOWN ){
 			switch(event.key.keysym.sym ){
 				case SDLK_ESCAPE:
 					running = 0;

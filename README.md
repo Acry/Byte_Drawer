@@ -2,7 +2,7 @@ Byte Drawer
 
 Flipping Bits on a real char and visualize that.
 
-![Screenshot](./screenshot)
+![Screenshot](./screenshot.jpg)
 
 This is WORK IN PROGRESS.
 

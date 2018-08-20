@@ -90,7 +90,7 @@ struct area{
 //BEGIN GLOBALS
 int IARH;  						//Image Aspect Ratio horizontal
 int IARW;  						//Image Aspect Ratio vertical
-float current_scale;
+struct vec2 current_scale;
 int WW 				= RES_W;		//Window Width
 int WH				= RES_H;		//Window Height
 struct _canvas action_area;
@@ -107,9 +107,9 @@ SDL_Color 	 font_color = {BLUE};
 
 SDL_Surface 	*help_surf  = NULL;
 
-struct area le;//little endian
-struct area be;//big endian
-struct area ns;//number system
+struct area le;			//little endian
+struct area be;			//big endian
+struct area ns;			//number system
 
 //DEBUG HELP
 char dump=1;
@@ -225,9 +225,10 @@ while(running){
 			running = 0;
 		}
 		if(event.type == SDL_WINDOWEVENT){
-			if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED){
+			if (event.window.event == SDL_WINDOWEVENT_RESIZED){
 				WW = event.window.data1;
 				WH = event.window.data2;
+				SDL_Log("WW: %d, WH: %d", WW,WH);
 				scale_all();
 			}
 		}
@@ -353,10 +354,19 @@ void render_text(void)
 
 	help_surf=TTF_RenderText_Blended(font,buffer, font_color);
 	byte_numbers.Texture = SDL_CreateTextureFromSurface( Renderer, help_surf );
-	
-	SDL_QueryTexture(byte_numbers.Texture, NULL, NULL, &byte_numbers.dst.w, &byte_numbers.dst.h);
-	if (WW!=RES_W)
-		scale_area(&byte_numbers);
+	int w,h;
+	SDL_QueryTexture(byte_numbers.Texture, NULL, NULL, &w, &h);
+	if (WW!=RES_W){
+		byte_numbers.frac.size.x=w*current_scale.x;
+		byte_numbers.frac.size.y=h*current_scale.y;
+		byte_numbers.dst.w=roundf(byte_numbers.frac.size.x);
+		byte_numbers.dst.h=roundf(byte_numbers.frac.size.y);
+	} else{
+		byte_numbers.frac.size.x=w;
+		byte_numbers.frac.size.y=h;
+		byte_numbers.dst.w=roundf(byte_numbers.frac.size.x);
+		byte_numbers.dst.h=roundf(byte_numbers.frac.size.y);
+	}
 	if (dump)
 		dump_value();
 }
@@ -382,7 +392,7 @@ void dump_value(void)
 	strcat(buffer,"\0");
 	SDL_Log("%s",buffer);
 	
-	SDL_Log("line %c is %d in decimal\n",line,line);
+	SDL_Log("Byte represents %c as char and %d as decimal\n",line,line);
 	int line2=line;
 	SDL_Log("Octal value is: %o\n",line2);
 	SDL_Log("Hexadecimal value is (Alphabet in small letters): %x\n",line2);
@@ -427,7 +437,7 @@ int gcd (int a, int b)
 	
 }
 
-void init_canvas	(void)
+void init_canvas(void)
 {
 	//BEGIN ACTION AREA
 	action_area.frac.size.x=RES_W;
@@ -454,7 +464,8 @@ void init_canvas	(void)
 void scale_all(void)
 {
 	scale_canvas(&action_area);
-	current_scale = action_area.frac.size.x / (float)RES_W;
+	current_scale.x = action_area.frac.size.x / (float)RES_W;
+	current_scale.y = action_area.frac.size.y / (float)RES_H;
 	center_canvas();
 
 	scale_area(&le);
@@ -464,6 +475,8 @@ void scale_all(void)
 	for (int i=0; i<8; i++){
 		scale_area(&bit[i]);
 	}
+
+	
 	
 }
 

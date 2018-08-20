@@ -2,12 +2,24 @@
 CFLAGS   = -Wall -Wextra -mtune=native `sdl2-config --cflags`
 LDFLAGS  = `sdl2-config --libs` -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lSDL2_gfx -lm
 
-SourceDir=src/
-BinDir=./
+.SUFFIXES:
+.SUFFIXES: .c .o
 
-debug:$(SourceDir)helper.c $(SourceDir)main.c
-	$(CC) $(CFLAGS) -g $? -o byte_drawer $(LDFLAGS)
-stable:$(SourceDir)helper.c $(SourceDir)main.c
-	$(CC) $(CFLAGS) $? -o $(BinDir)byte_drawer $(LDFLAGS)
+srcdir	 =src/
+BinDir	 =./
+TARGETS	 = byte_drawer
+
+.PHONY: all
+all: $(TARGETS)
+
+1: $(srcdir)helper.c $(srcdir)1.c
+	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS)
+
+byte_drawer: $(srcdir)helper.c $(srcdir)2.c
+	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS)
+
+
+
+.PHONY: clean
 clean:
-	rm -vfr *~ $(BinDir)byte_drawer data
+	@rm $(TARGETS) $(BinDir)byte_drawer data 2>/dev/null || true

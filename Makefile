@@ -12,10 +12,7 @@ TARGETS	 = byte_drawer
 .PHONY: all
 all: $(TARGETS)
 
-1: $(srcdir)helper.c $(srcdir)1.c
-	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS)
-
-byte_drawer: $(srcdir)helper.c $(srcdir)2.c
+byte_drawer: $(srcdir)helper.c $(srcdir)byte_drawer.c
 	$(CC) $(CFLAGS) -o $@ $+ $(LDFLAGS)
 
 

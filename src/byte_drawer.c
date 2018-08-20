@@ -228,7 +228,6 @@ while(running){
 			if (event.window.event == SDL_WINDOWEVENT_RESIZED){
 				WW = event.window.data1;
 				WH = event.window.data2;
-				SDL_Log("WW: %d, WH: %d", WW,WH);
 				scale_all();
 			}
 		}
@@ -406,10 +405,11 @@ void read_file(void)
 	FILE *file;
 	file = fopen( "data", "rb" );
 	if (file==NULL){
-		SDL_Log("no file opened, try write one before. Press W to save your bit.");
+		SDL_Log("No file opened, try write one before. Press W to save your bit.");
 	}else{
 		line=(unsigned char)fgetc(file);
 		fclose( file );
+		SDL_Log("Read File success");
 	}
 	
 }
@@ -426,6 +426,7 @@ void write_file	(void)
 		fclose( file );
 		if (dump)
 			dump_value();
+		SDL_Log("Write File success");
 	}
 }
 

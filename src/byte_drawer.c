@@ -287,6 +287,7 @@ for (i=0; i <8; i++){
 	SDL_RenderCopy(Renderer, byte_numbers.Texture, NULL, &byte_numbers.dst);
 
 SDL_RenderPresent(Renderer);
+SDL_Delay(66);
 //END   RENDERING
 
 }
@@ -393,8 +394,8 @@ void dump_value(void)
 	SDL_Log("Byte represents %c as char and %d as decimal\n",line,line);
 	int line2=line;
 	SDL_Log("Octal value is: %o\n",line2);
-	SDL_Log("Hexadecimal value is (Alphabet in small letters): %x\n",line2);
-	SDL_Log("Hexadecimal value is (Alphabet in capital letters): %X\n",line2);
+	SDL_Log("Hexadecimal value is (Alphabet in small letters): %.2x\n",line2);
+	SDL_Log("Hexadecimal value is (Alphabet in capital letters): %.2X\n",line2);
 	SDL_Log("\n");
 
 }

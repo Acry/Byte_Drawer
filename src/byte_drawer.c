@@ -146,9 +146,8 @@ init();
 init_canvas();
 //BEGIN LOAD STUFF AND CREATE TEXTURES
 font=TTF_OpenFont("./assets/FiraMono-Medium.ttf", 43);
-byte_numbers.dst.x=50;
+byte_numbers.dst.x=60;
 byte_numbers.dst.y=150;
-
 
 int w,h;
 int i;
@@ -343,11 +342,11 @@ void render_text(void)
 		sprintf(temp, "%d", !!((line << i) & 0x80));
 		if (i==7){
 			strcpy(buffer,temp);
-			strcat(buffer," ");
+// 			strcat(buffer," ");
 		}
 		else{
 			strcat(buffer,temp);
-			strcat(buffer," ");
+// 			strcat(buffer," ");
 		}
 	}
 

@@ -1,0 +1,54 @@
+flipping bit
+bit twiddling
+bit hacks
+
+memory cell
+bit
+nibble
+byte
+word
+
+Bit - Binary Digit
+
+First of all, if I use a char, which has per definition the magnitude of 1 byte to represent
+a number and if the number is 0 or 1 the bit represents not a digit, it represents a number.
+
+Hardware/device
+the physical cell - distinct cell with a fix address.
+the logical cell - we dont care about the address of the physical cell.
+
+the cell or field can have two states, it is switchable
+set or unset
+
+morse code has 3 states, long, short, pause/nothing/void
+
+representation - Software-engineer
+interpretation - user
+
+If I use a char to set traffic lights, numbers or digits have no meaning at all.
+
+I am respresenting states by colors and I want to achieve an effect and I have a reason/cause.
+
+The reason is avoiding negative effects on a flow.
+
+I control, program, regulate the flow.
+
+Decision making
+Even my traffic lights may have no meaning to a person.
+Colors are just colors, if you look at an Aurora.
+If the receiver of my message is a machine it must be able to "read"/decipher my RGB-Code.
+
+The message or tiding of Red is halt, Green is go, and Yellow/Orange are attention.
+But I will represent BLUE as Attention.
+
+Probably red/dark orange is like a hot flame or glowing iron.
+Nowadays it is known that the most heat in a flame is the blue part, oxygene.
+
+The 3 colors have no special meaning to a baby, they have just radiance.
+We need to learn that we better stop at a red traffic light.
+
+Psychology of colors
+Ocean blue/greenish, pink noise - lost, absent
+
+An integer has different magnitudes.
+A datatype, even a native one, those that are defined

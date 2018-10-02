@@ -1,17 +1,36 @@
+Bit Operations:
 flipping bit
 bit twiddling
 bit hacks
 
-memory cell
-bit
-nibble
-byte
-word
+Physical:
+Memory Cell (https://en.wikipedia.org/wiki/Memory_cell)
 
-Bit - Binary Digit
+Logical Cell units:
+Bit	(Binary Digit)
+Nibble
+Byte
+Word, DW, QW etc.
 
-First of all, if I use a char, which has per definition the magnitude of 1 byte to represent
-a number and if the number is 0 or 1 the bit represents not a digit, it represents a number.
+Math is already an abstraction/representation beside the states set/unset.
+If I use a char, which has per definition the magnitude of 1 byte to present
+a number and if the number is 0 or 1 the bit presents not a digit, it presents a
+number to the coder and he can make that number up and present it to the user.
+
+The use-intention to show 1 as a number, may reflect a quantity or used as a state-
+variable if something has happened.
+
+Example Airbag:
+A crash happened (event triggered), time for action, unleash the gas to pump the
+saftey-baloon up.
+
+A datatype like an unsigned character is an abstraction for a programmer to
+control a fixed amount of bits, in this case 8 of them.
+
+If the user of the program interprets the right use-intention is not fully under
+control. E.g. if a displayed text-warning can't read by the user, the use-
+intention does not work. It may be in the wrong language, it may be in the wrong
+size or the user has never learned to read at all.
 
 Hardware/device
 the physical cell - distinct cell with a fix address.
@@ -47,8 +66,8 @@ Nowadays it is known that the most heat in a flame is the blue part, oxygene.
 The 3 colors have no special meaning to a baby, they have just radiance.
 We need to learn that we better stop at a red traffic light.
 
-Psychology of colors
+Psychology of colors (Color psychology) and sound (Psychoacoustics)
 Ocean blue/greenish, pink noise - lost, absent
 
 An integer has different magnitudes.
-A datatype, even a native one, those that are defined
+A datatype, even a native one, those that are defined.

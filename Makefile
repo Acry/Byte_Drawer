@@ -1,5 +1,5 @@
 #CC=gcc
-CFLAGS   = -Wall -Wextra -mtune=native `sdl2-config --cflags`
+CFLAGS   = -Wall -Wextra -mtune=native -no-pie `sdl2-config --cflags`
 LDFLAGS  = `sdl2-config --libs` -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lSDL2_gfx -lm
 
 .SUFFIXES:

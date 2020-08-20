@@ -23,6 +23,6 @@ Left MB for bit flipping.
 key w = write Byte as char to data file  
 key r = read Byte as char to data file  
 
-[Get in touch on SDL-Discourse](https://discourse.libsdl.org/u/Acry/summary) | [My IO-Site](https://acry.github.io/)  
+[My IO-Site](https://acry.github.io/)  
 
 
